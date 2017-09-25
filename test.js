@@ -35,7 +35,8 @@ test('rejects if any of the input promises reject', async t => {
 		m({
 			foo: Promise.resolve(1),
 			bar: Promise.reject(new Error('bar'))
-		}, 'bar')
+		}),
+		'bar'
 	);
 });
 
