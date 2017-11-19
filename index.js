@@ -1,7 +1,7 @@
 'use strict';
 
-const map = input => new Promise((resolve, reject) => {
-	Promise.all(input.values()).then(values => {
+const map = input => {
+	return Promise.all(input.values()).then(values => {
 		const ret = new Map();
 
 		for (const entry of Array.from(input.keys()).entries()) {
@@ -10,15 +10,15 @@ const map = input => new Promise((resolve, reject) => {
 			ret.set(key, values[i]);
 		}
 
-		resolve(ret);
-	}).catch(reject);
-});
+		return ret;
+	});
+};
 
-const obj = input => new Promise((resolve, reject) => {
+const obj = input => {
 	// TODO: use `Object.entries()` when targeting Node.js 6
 	const keys = Object.keys(input);
 
-	Promise.all(keys.map(key => input[key])).then(values => {
+	return Promise.all(keys.map(key => input[key])).then(values => {
 		const ret = {};
 
 		// TODO: use destructuring when targeting Node.js 6
@@ -32,8 +32,8 @@ const obj = input => new Promise((resolve, reject) => {
 			ret[key] = values[i];
 		}
 
-		resolve(ret);
-	}).catch(reject);
-});
+		return ret;
+	});
+};
 
 module.exports = input => input instanceof Map ? map(input) : obj(input);
