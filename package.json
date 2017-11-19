@@ -1,47 +1,43 @@
 {
-  "name": "p-props",
-  "version": "1.0.0",
-  "description": "Like `Promise.all()` but for `Map` and `Object`",
-  "license": "MIT",
-  "repository": "sindresorhus/p-props",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "promise",
-    "props",
-    "map",
-    "object",
-    "values",
-    "obj",
-    "properties",
-    "props",
-    "entries",
-    "async",
-    "await",
-    "promises",
-    "concurrently",
-    "concurrency",
-    "parallel",
-    "bluebird"
-  ],
-  "devDependencies": {
-    "ava": "*",
-    "delay": "^1.3.1",
-    "xo": "*"
-  },
-  "xo": {
-    "esnext": true
-  }
+	"name": "p-props",
+	"version": "1.0.0",
+	"description": "Like `Promise.all()` but for `Map` and `Object`",
+	"license": "MIT",
+	"repository": "sindresorhus/p-props",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"promise",
+		"props",
+		"map",
+		"object",
+		"values",
+		"obj",
+		"properties",
+		"entries",
+		"async",
+		"await",
+		"promises",
+		"concurrently",
+		"concurrency",
+		"parallel",
+		"bluebird"
+	],
+	"devDependencies": {
+		"ava": "*",
+		"delay": "^2.0.0",
+		"xo": "*"
+	}
 }

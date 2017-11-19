@@ -8,7 +8,7 @@ Useful when you need to run multiple promises concurrently and keep track of the
 ## Install
 
 ```
-$ npm install --save p-props
+$ npm install p-props
 ```
 
 
