@@ -36,15 +36,33 @@ pProps(sites).then(result => {
 
 ## API
 
-### pProps(input)
+### pProps(input, [mapper], [options])
 
-Returns a `Promise` that is fulfilled when all promises in `input` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `input`, but with a fulfilled version of each entry value.
+Returns a `Promise` that is fulfilled when all promises in `input` and ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `input`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
 
 #### input
 
 Type: `Map` `Object`
 
 Resolves entry values that are promises. Other values are passed through.
+
+#### mapper(element, index)
+
+Type: `Function`
+
+Expected to return a `Promise` or value.
+
+#### options
+
+Type: `Object`
+
+##### concurrency
+
+Type: `number`<br>
+Default: `Infinity`<br>
+Minimum: `1`
+
+Number of concurrently pending promises returned by `mapper`.
 
 
 ## Related

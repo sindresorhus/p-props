@@ -44,3 +44,18 @@ test('handles empty object', async t => {
 	t.deepEqual(await m({}), {});
 	t.deepEqual((await m(new global.Map([]))), new global.Map([]));
 });
+
+test('with mapper', async t => {
+	t.deepEqual(
+		await m({
+			foo: delay(100).then(() => 1),
+			bar: Promise.resolve(2),
+			faz: 3
+		}, value => value * 2),
+		{
+			foo: 2,
+			bar: 4,
+			faz: 6
+		}
+	);
+});
