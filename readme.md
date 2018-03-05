@@ -56,14 +56,7 @@ Expected to return a `Promise` or value.
 
 Type: `Object`
 
-##### concurrency
-
-Type: `number`<br>
-Default: `Infinity`<br>
-Minimum: `1`
-
-Number of concurrently pending promises returned by `mapper`.
-
+See the [`p-map` options](https://github.com/sindresorhus/p-map#options).
 
 ## Related
 
