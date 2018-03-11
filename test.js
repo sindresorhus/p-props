@@ -50,7 +50,7 @@ test('with mapper', async t => {
 		await m({
 			foo: 1,
 			baz: Promise.resolve(2)
-		}, (value, key) => key + value),
+		}, (value, key) => Promise.resolve(value).then(resolvedValue => key + resolvedValue)),
 		{
 			foo: 'foo1',
 			baz: 'baz2'
@@ -63,7 +63,7 @@ test('Map input with mapper', async t => {
 		await m(new global.Map([
 			['foo', 1],
 			['bar', Promise.resolve(2)]
-		]), (value, key) => key + value),
+		]), (value, key) => Promise.resolve(value).then(resolvedValue => key + resolvedValue)),
 		new global.Map([
 			['foo', 'foo1'],
 			['bar', 'bar2']
