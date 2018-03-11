@@ -2,7 +2,7 @@
 const pMap = require('p-map');
 
 const map = (input, mapper, options) => {
-	return pMap(input.values(), mapper, options).then(values => {
+	return pMap(input.entries(), entry => Promise.resolve(entry[1]).then(value => mapper(value, entry[0])), options).then(values => {
 		const ret = new Map();
 
 		for (const entry of Array.from(input.keys()).entries()) {
@@ -19,7 +19,7 @@ const obj = (input, mapper, options) => {
 	// TODO: use `Object.entries()` when targeting Node.js 6
 	const keys = Object.keys(input);
 
-	return pMap(keys.map(key => input[key]), mapper, options).then(values => {
+	return pMap(keys, key => Promise.resolve(input[key]).then(value => mapper(value, key)), options).then(values => {
 		const ret = {};
 
 		// TODO: use destructuring when targeting Node.js 6
