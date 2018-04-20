@@ -17,7 +17,7 @@ test('main', async t => {
 	);
 });
 
-test('Map input', async t => {
+test('`Map` input', async t => {
 	t.deepEqual(
 		await m(new global.Map([
 			['foo', Promise.resolve(1)],
@@ -43,4 +43,30 @@ test('rejects if any of the input promises reject', async t => {
 test('handles empty object', async t => {
 	t.deepEqual(await m({}), {});
 	t.deepEqual((await m(new global.Map([]))), new global.Map([]));
+});
+
+test('with mapper', async t => {
+	t.deepEqual(
+		await m({
+			foo: 1,
+			baz: Promise.resolve(2)
+		}, (value, key) => Promise.resolve(value).then(resolvedValue => key + resolvedValue)),
+		{
+			foo: 'foo1',
+			baz: 'baz2'
+		}
+	);
+});
+
+test('`Map` input with mapper', async t => {
+	t.deepEqual(
+		await m(new global.Map([
+			['foo', 1],
+			['bar', Promise.resolve(2)]
+		]), (value, key) => Promise.resolve(value).then(resolvedValue => key + resolvedValue)),
+		new global.Map([
+			['foo', 'foo1'],
+			['bar', 'bar2']
+		])
+	);
 });

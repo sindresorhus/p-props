@@ -1,7 +1,8 @@
 'use strict';
+const pMap = require('p-map');
 
-const map = input => {
-	return Promise.all(input.values()).then(values => {
+const map = (input, mapper, options) => {
+	return pMap(input.entries(), entry => mapper(entry[1], entry[0]), options).then(values => {
 		const ret = new Map();
 
 		for (const entry of Array.from(input.keys()).entries()) {
@@ -14,11 +15,11 @@ const map = input => {
 	});
 };
 
-const obj = input => {
+const obj = (input, mapper, options) => {
 	// TODO: use `Object.entries()` when targeting Node.js 6
 	const keys = Object.keys(input);
 
-	return Promise.all(keys.map(key => input[key])).then(values => {
+	return pMap(keys, key => mapper(input[key], key), options).then(values => {
 		const ret = {};
 
 		// TODO: use destructuring when targeting Node.js 6
@@ -36,4 +37,7 @@ const obj = input => {
 	});
 };
 
-module.exports = input => input instanceof Map ? map(input) : obj(input);
+module.exports = (input, mapper, options) => {
+	mapper = mapper || (value => value);
+	return input instanceof Map ? map(input, mapper, options) : obj(input, mapper, options);
+};

@@ -35,6 +35,9 @@
     "parallel",
     "bluebird"
   ],
+  "dependencies": {
+    "p-map": "^1.2.0"
+  },
   "devDependencies": {
     "ava": "*",
     "delay": "^2.0.0",
