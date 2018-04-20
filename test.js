@@ -17,7 +17,7 @@ test('main', async t => {
 	);
 });
 
-test('Map input', async t => {
+test('`Map` input', async t => {
 	t.deepEqual(
 		await m(new global.Map([
 			['foo', Promise.resolve(1)],
@@ -58,7 +58,7 @@ test('with mapper', async t => {
 	);
 });
 
-test('Map input with mapper', async t => {
+test('`Map` input with mapper', async t => {
 	t.deepEqual(
 		await m(new global.Map([
 			['foo', 1],
