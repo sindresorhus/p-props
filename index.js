@@ -2,12 +2,10 @@
 const pMap = require('p-map');
 
 const map = (input, mapper, options) => {
-	return pMap(input.entries(), entry => mapper(entry[1], entry[0]), options).then(values => {
+	return pMap(input.entries(), ([key, value]) => mapper(value, key), options).then(values => {
 		const ret = new Map();
 
-		for (const entry of Array.from(input.keys()).entries()) {
-			const i = entry[0];
-			const key = entry[1];
+		for (const [i, key] of [...input.keys()].entries()) {
 			ret.set(key, values[i]);
 		}
 
@@ -16,20 +14,11 @@ const map = (input, mapper, options) => {
 };
 
 const obj = (input, mapper, options) => {
-	// TODO: use `Object.entries()` when targeting Node.js 6
-	const keys = Object.keys(input);
-
-	return pMap(keys, key => mapper(input[key], key), options).then(values => {
+	// TODO: Use `Object.entries()` when targeting Node.js 8
+	return pMap(Object.keys(input), key => mapper(input[key], key), options).then(values => {
 		const ret = {};
 
-		// TODO: use destructuring when targeting Node.js 6
-		// for (const [i, key] of keys.entries()) {
-		// 	ret[key] = values[i];
-		// }
-
-		for (const entry of keys.entries()) {
-			const i = entry[0];
-			const key = entry[1];
+		for (const [i, key] of Object.keys(input).entries()) {
 			ret[key] = values[i];
 		}
 
