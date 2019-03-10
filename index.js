@@ -1,32 +1,35 @@
 'use strict';
+
 const pMap = require('p-map');
 
-const map = (input, mapper, options) => {
-	return pMap(input.entries(), ([key, value]) => mapper(value, key), options).then(values => {
-		const ret = new Map();
+const map = async (input, mapper, options) => {
+	const values = await pMap(input.entries(), ([key, value]) => mapper(value, key), options);
+	const result = new Map();
 
-		for (const [i, key] of [...input.keys()].entries()) {
-			ret.set(key, values[i]);
-		}
+	for (const [i, key] of [...input.keys()].entries()) {
+		result.set(key, values[i]);
+	}
 
-		return ret;
-	});
+	return result;
 };
 
-const obj = (input, mapper, options) => {
-	// TODO: Use `Object.entries()` when targeting Node.js 8
-	return pMap(Object.keys(input), key => mapper(input[key], key), options).then(values => {
-		const ret = {};
+const obj = async (input, mapper, options) => {
+	const values = await pMap(Object.entries(input), ([key, value]) => mapper(value, key), options);
+	const result = {};
 
-		for (const [i, key] of Object.keys(input).entries()) {
-			ret[key] = values[i];
-		}
+	for (const [i, key] of Object.keys(input).entries()) {
+		result[key] = values[i];
+	}
 
-		return ret;
-	});
+	return result;
 };
 
-module.exports = (input, mapper, options) => {
+const pProps = (input, mapper, options) => {
 	mapper = mapper || (value => value);
-	return input instanceof Map ? map(input, mapper, options) : obj(input, mapper, options);
+	return input instanceof Map ?
+		map(input, mapper, options) :
+		obj(input, mapper, options);
 };
+
+module.exports = pProps;
+module.exports.default = pProps;
