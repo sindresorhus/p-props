@@ -50,7 +50,7 @@ Resolves entry values that are promises. Other values are passed through.
 
 Type: `Function`
 
-Expected to return a `Promise` or value.
+Receives the current value and key as parameters. Expected to return a `Promise` or value.
 
 #### options
 

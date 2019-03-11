@@ -4,7 +4,7 @@ import pProps from '.';
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
 expectType<Promise<{[key in 'foo']: boolean}>>(
 	pProps({foo: 'bar'}, (value, key) => {
-		expectType<string>(value);
+		expectType<string | PromiseLike<string>>(value);
 		expectType<'foo'>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -13,7 +13,7 @@ expectType<Promise<{[key in 'foo']: boolean}>>(
 	pProps(
 		{foo: 'bar'},
 		(value, key) => {
-			expectType<string>(value);
+			expectType<string | PromiseLike<string>>(value);
 			expectType<'foo'>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
@@ -33,7 +33,7 @@ expectType<Promise<{[key: string]: string | number}>>(
 );
 expectType<Promise<{[key: string]: boolean}>>(
 	pProps<string, string | number, boolean>(hashMap, (value, key) => {
-		expectType<string | number>(value);
+		expectType<string | number | PromiseLike<string | number>>(value);
 		expectType<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -42,7 +42,7 @@ expectType<Promise<{[key: string]: boolean}>>(
 	pProps<string, string | number, boolean>(
 		hashMap,
 		(value, key) => {
-			expectType<string | number>(value);
+			expectType<string | number | PromiseLike<string | number>>(value);
 			expectType<string>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
@@ -64,7 +64,7 @@ pProps(map).then(result => {
 expectType<Promise<Map<number, string>>>(pProps(map));
 expectType<Promise<Map<number, boolean>>>(
 	pProps(map, (value, key) => {
-		expectType<string>(value);
+		expectType<string | PromiseLike<string>>(value);
 		expectType<number>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -73,7 +73,7 @@ expectType<Promise<Map<number, boolean>>>(
 	pProps(
 		map,
 		(value, key) => {
-			expectType<string>(value);
+			expectType<string | PromiseLike<string>>(value);
 			expectType<number>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
