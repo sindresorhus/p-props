@@ -18,19 +18,29 @@ $ npm install p-props
 const pProps = require('p-props');
 const got = require('got');
 
-const fetch = url => got(url).then(res => res.body);
+(async () => {
+	const fetch = async url => {
+		const {body} = await got(url);
+		return body;
+	};
 
-const sites = {
-	ava: fetch('ava.li'),
-	todomvc: fetch('todomvc.com'),
-	github: fetch('github.com'),
-	foo: 'bar'
-};
+	const sites = {
+		ava: fetch('ava.li'),
+		todomvc: fetch('todomvc.com'),
+		github: fetch('github.com'),
+		foo: 'bar'
+	};
 
-pProps(sites).then(result => {
-	console.log(result);
-	//=> {ava: '<!doctype ...', todomvc: '<!doctype ...', github: '<!doctype ...', foo: 'bar'}
-});
+	console.log(await pProps(sites));
+	/*
+	{
+		ava: '<!doctype …',
+		todomvc: '<!doctype …',
+		github: '<!doctype …',
+		foo: 'bar'
+	}
+	*/
+})();
 ```
 
 
@@ -57,6 +67,7 @@ Receives the current value and key as parameters. Expected to return a `Promise`
 Type: `Object`
 
 See the [`p-map` options](https://github.com/sindresorhus/p-map#options).
+
 
 ## Related
 
