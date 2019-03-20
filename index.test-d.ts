@@ -4,7 +4,7 @@ import pProps from '.';
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
 expectType<Promise<{[key in 'foo']: boolean}>>(
 	pProps({foo: 'bar'}, (value, key) => {
-		expectType<string | PromiseLike<string>>(value);
+		expectType<string>(value);
 		expectType<'foo'>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -13,7 +13,7 @@ expectType<Promise<{[key in 'foo']: boolean}>>(
 	pProps(
 		{foo: 'bar'},
 		(value, key) => {
-			expectType<string | PromiseLike<string>>(value);
+			expectType<string>(value);
 			expectType<'foo'>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
@@ -29,20 +29,20 @@ const hashMap = {
 };
 
 expectType<Promise<{[key: string]: string | number}>>(
-	pProps<string, string | number>(hashMap)
+	pProps<string, string | Promise<number>>(hashMap)
 );
 expectType<Promise<{[key: string]: boolean}>>(
-	pProps<string, string | number, boolean>(hashMap, (value, key) => {
-		expectType<string | number | PromiseLike<string | number>>(value);
+	pProps<string, string | Promise<number>, boolean>(hashMap, (value, key) => {
+		expectType<string | Promise<number>>(value);
 		expectType<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
 );
 expectType<Promise<{[key: string]: boolean}>>(
-	pProps<string, string | number, boolean>(
+	pProps<string, string | Promise<number>, boolean>(
 		hashMap,
 		(value, key) => {
-			expectType<string | number | PromiseLike<string | number>>(value);
+			expectType<string | Promise<number>>(value);
 			expectType<string>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
@@ -64,7 +64,7 @@ pProps(map).then(result => {
 expectType<Promise<Map<number, string>>>(pProps(map));
 expectType<Promise<Map<number, boolean>>>(
 	pProps(map, (value, key) => {
-		expectType<string | PromiseLike<string>>(value);
+		expectType<string | Promise<string>>(value);
 		expectType<number>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -73,7 +73,7 @@ expectType<Promise<Map<number, boolean>>>(
 	pProps(
 		map,
 		(value, key) => {
-			expectType<string | PromiseLike<string>>(value);
+			expectType<string | Promise<string>>(value);
 			expectType<number>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},

@@ -1,7 +1,9 @@
 import {Options} from 'p-map';
 
+export type PromiseResult<Value> = Value extends PromiseLike<infer Result> ? Result : Value;
+
 export type Mapper<ValueType, KeyType, MappedValueType> = (
-	element: PromiseLike<ValueType> | ValueType,
+	element: ValueType,
 	key: KeyType
 ) => MappedValueType | PromiseLike<MappedValueType>;
 
@@ -16,18 +18,18 @@ export type Mapper<ValueType, KeyType, MappedValueType> = (
 export default function pProps<
 	KeyType extends unknown,
 	ValueType extends unknown,
-	MappedValueType = ValueType
+	MappedValueType = PromiseResult<ValueType>
 >(
-	input: Map<KeyType, PromiseLike<ValueType> | ValueType>,
+	input: Map<KeyType, ValueType>,
 	mapper?: Mapper<ValueType, KeyType, MappedValueType>,
 	options?: Options
 ): Promise<Map<KeyType, MappedValueType>>;
 export default function pProps<
 	KeyType extends string,
 	ValueType extends unknown,
-	MappedValueType = ValueType
+	MappedValueType = PromiseResult<ValueType>
 >(
-	input: {[key in KeyType]: PromiseLike<ValueType> | ValueType},
+	input: {[key in KeyType]: ValueType},
 	mapper?: Mapper<ValueType, KeyType, MappedValueType>,
 	options?: Options
 ): Promise<{[key in KeyType]: MappedValueType}>;
