@@ -28,18 +28,16 @@ const hashMap = {
 	foo: 'bar'
 };
 
-expectType<Promise<{[key: string]: string | number}>>(
-	pProps<string, string | Promise<number>>(hashMap)
-);
-expectType<Promise<{[key: string]: boolean}>>(
-	pProps<string, string | Promise<number>, boolean>(hashMap, (value, key) => {
+expectType<Promise<{[key in 'unicorn' | 'foo']: string | number}>>(pProps(hashMap));
+expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
+	pProps(hashMap, (value, key) => {
 		expectType<string | Promise<number>>(value);
 		expectType<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
 );
-expectType<Promise<{[key: string]: boolean}>>(
-	pProps<string, string | Promise<number>, boolean>(
+expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
+	pProps(
 		hashMap,
 		(value, key) => {
 			expectType<string | Promise<number>>(value);
@@ -51,6 +49,9 @@ expectType<Promise<{[key: string]: boolean}>>(
 		}
 	)
 );
+
+const partialMap: { foo?: Promise<string> } = {}
+expectType<Promise<{foo?: string}>>(pProps(partialMap));
 
 const map = new Map<number, string | Promise<string>>([
 	[1, Promise.resolve('1')],

@@ -25,13 +25,13 @@ export default function pProps<
 	options?: Options
 ): Promise<Map<KeyType, MappedValueType>>;
 export default function pProps<
-	KeyType extends string,
-	ValueType extends unknown,
+	InputType extends object,
+	ValueType extends InputType[keyof InputType],
 	MappedValueType = PromiseResult<ValueType>
 >(
-	input: {[key in KeyType]: ValueType},
-	mapper?: Mapper<ValueType, KeyType, MappedValueType>,
+	input: InputType,
+	mapper?: Mapper<ValueType, keyof InputType, MappedValueType>,
 	options?: Options
-): Promise<{[key in KeyType]: MappedValueType}>;
+): Promise<{[key in keyof InputType]: MappedValueType}>;
 
 export {Options} from 'p-map';
