@@ -63,20 +63,20 @@ pProps(map).then(result => {
 });
 
 expectType<Promise<Map<number, string>>>(pProps(map));
-expectType<Promise<Map<number, boolean>>>(
+expectType<Promise<Map<number, number>>>(
 	pProps(map, (value, key) => {
 		expectType<string | Promise<string>>(value);
 		expectType<number>(key);
-		return Math.random() > 0.5 ? false : Promise.resolve(true);
+		return Math.random() > 0.5 ? 1 : Promise.resolve(2);
 	})
 );
-expectType<Promise<Map<number, boolean>>>(
+expectType<Promise<Map<number, number>>>(
 	pProps(
 		map,
 		(value, key) => {
 			expectType<string | Promise<string>>(value);
 			expectType<number>(key);
-			return Math.random() > 0.5 ? false : Promise.resolve(true);
+			return Math.random() > 0.5 ? 1 : Promise.resolve(2);
 		},
 		{
 			concurrency: 1
