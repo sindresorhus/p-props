@@ -50,7 +50,7 @@ expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	)
 );
 
-const partialMap: { foo?: Promise<string> } = {}
+const partialMap: {foo?: Promise<string>} = {}
 expectType<Promise<{foo?: string}>>(pProps(partialMap));
 
 const map = new Map<number, string | Promise<string>>([
