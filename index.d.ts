@@ -25,7 +25,7 @@ export default function pProps<
 	options?: Options
 ): Promise<Map<KeyType, MappedValueType>>;
 export default function pProps<
-	InputType extends {[key: string]: any},
+	InputType extends {[key: string]: unknown},
 	ValueType extends InputType[keyof InputType],
 	MappedValueType = PromiseResult<ValueType>
 >(
