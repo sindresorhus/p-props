@@ -59,6 +59,7 @@ const map = new Map<number, string | Promise<string>>([
 ]);
 
 pProps(map).then(result => {
+	expectType<Map<number, string>>(result);
 	expectType<string | undefined>(result.get(1));
 });
 
