@@ -46,25 +46,25 @@ const got = require('got');
 
 ## API
 
-### pProps(input, [mapper], [options])
+### pProps(map, [mapper], [options])
 
-Returns a `Promise` that is fulfilled when all promises in `input` and ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `input`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
+Returns a `Promise` that is fulfilled when all promises in `map` and ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `map`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
 
-#### input
+#### map
 
-Type: `Map` `Object`
+Type: `Map | object`
 
 Resolves entry values that are promises. Other values are passed through.
 
-#### mapper(element, index)
+#### mapper(value, key)
 
 Type: `Function`
 
-Receives the current value and key as parameters. Expected to return a `Promise` or value.
+Receives the current value and key as parameters. If a value is a `Promise`, `mapper` will receive the value this `Promise` resolves to. Expected to return a `Promise` or value.
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 See the [`p-map` options](https://github.com/sindresorhus/p-map#options).
 
