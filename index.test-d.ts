@@ -1,5 +1,7 @@
-import {expectType} from 'tsd-check';
-import pProps from '.';
+import {expectType} from 'tsd';
+import pProps = require('.');
+
+const options: pProps.Options = {};
 
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
 expectType<Promise<{[key in 'foo']: boolean}>>(
@@ -28,10 +30,12 @@ const hashMap = {
 	foo: 'bar'
 };
 
-expectType<Promise<{[key in 'unicorn' | 'foo']: string | number}>>(pProps(hashMap));
+expectType<Promise<{[key in 'unicorn' | 'foo']: string | number}>>(
+	pProps(hashMap)
+);
 expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	pProps(hashMap, (value, key) => {
-		expectType<string | Promise<number>>(value);
+		expectType<string | number>(value);
 		expectType<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
@@ -40,7 +44,7 @@ expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	pProps(
 		hashMap,
 		(value, key) => {
-			expectType<string | Promise<number>>(value);
+			expectType<string | number>(value);
 			expectType<string>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
@@ -50,7 +54,7 @@ expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	)
 );
 
-const partialMap: {foo?: Promise<string>} = {}
+const partialMap: {foo?: Promise<string>} = {};
 expectType<Promise<{foo?: string}>>(pProps(partialMap));
 
 const map = new Map<number, string | Promise<string>>([
