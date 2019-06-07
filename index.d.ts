@@ -48,8 +48,8 @@ import got = require('got');
 ```
 */
 declare function pProps<
-	KeyType extends unknown,
-	ValueType extends unknown,
+	KeyType,
+	ValueType,
 	MappedValueType = pProps.PromiseResult<ValueType>
 >(
 	map: Map<KeyType, ValueType>,
@@ -57,7 +57,7 @@ declare function pProps<
 	options?: pProps.Options
 ): Promise<Map<KeyType, MappedValueType>>;
 declare function pProps<
-	InputType extends {[key: string]: unknown},
+	InputType extends {[key: string]: any},
 	ValueType extends InputType[keyof InputType],
 	MappedValueType = pProps.PromiseResult<ValueType>
 >(
