@@ -1,6 +1,7 @@
-import {expectType} from 'tsd';
+import {expectType, expectAssignable} from 'tsd';
 import pProps = require('.');
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const options: pProps.Options = {};
 
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
@@ -36,7 +37,7 @@ expectType<Promise<{[key in 'unicorn' | 'foo']: string | number}>>(
 expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	pProps(hashMap, (value, key) => {
 		expectType<string | number>(value);
-		expectType<string>(key);
+		expectAssignable<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
 	})
 );
@@ -45,7 +46,7 @@ expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 		hashMap,
 		(value, key) => {
 			expectType<string | number>(value);
-			expectType<string>(key);
+			expectAssignable<string>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
 		{
@@ -70,7 +71,7 @@ pProps(map).then(result => {
 expectType<Promise<Map<number, string>>>(pProps(map));
 expectType<Promise<Map<number, number>>>(
 	pProps(map, (value, key) => {
-		expectType<string | Promise<string>>(value);
+		expectType<string>(value);
 		expectType<number>(key);
 		return Math.random() > 0.5 ? 1 : Promise.resolve(2);
 	})
@@ -79,7 +80,7 @@ expectType<Promise<Map<number, number>>>(
 	pProps(
 		map,
 		(value, key) => {
-			expectType<string | Promise<string>>(value);
+			expectType<string>(value);
 			expectType<number>(key);
 			return Math.random() > 0.5 ? 1 : Promise.resolve(2);
 		},

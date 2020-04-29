@@ -52,7 +52,8 @@ declare function pProps<
 	ValueType,
 	MappedValueType = pProps.PromiseResult<ValueType>
 >(
-	map: Map<KeyType, ValueType>,
+	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+	map: ReadonlyMap<KeyType, ValueType>,
 	mapper?: pProps.Mapper<pProps.PromiseResult<ValueType>, KeyType, MappedValueType>,
 	options?: pProps.Options
 ): Promise<Map<KeyType, MappedValueType>>;

@@ -1,16 +1,14 @@
-# p-props [![Build Status](https://travis-ci.org/sindresorhus/p-props.svg?branch=master)](https://travis-ci.org/sindresorhus/p-props)
+# p-props [![Build Status](https://travis-ci.com/sindresorhus/p-props.svg?branch=master)](https://travis-ci.com/sindresorhus/p-props)
 
 > Like [`Promise.all()`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) but for `Map` and `Object`
 
 Useful when you need to run multiple promises concurrently and keep track of the fulfilled values by name.
-
 
 ## Install
 
 ```
 $ npm install p-props
 ```
-
 
 ## Usage
 
@@ -43,10 +41,9 @@ const got = require('got');
 })();
 ```
 
-
 ## API
 
-### pProps(map, [mapper], [options])
+### pProps(map, mapper?, options?)
 
 Returns a `Promise` that is fulfilled when all promises in `map` and ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `map`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
 
@@ -68,14 +65,8 @@ Type: `object`
 
 See the [`p-map` options](https://github.com/sindresorhus/p-map#options).
 
-
 ## Related
 
 - [p-all](https://github.com/sindresorhus/p-all) - Run promise-returning & async functions concurrently with optional limited concurrency
 - [p-map](https://github.com/sindresorhus/p-map) - Map over promises concurrently
 - [More…](https://github.com/sindresorhus/promise-fun)
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

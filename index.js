@@ -25,6 +25,7 @@ const object = async (map, mapper, options) => {
 	return result;
 };
 
+// eslint-disable-next-line default-param-last
 const pProps = (input, mapper = (value => value), options) => {
 	return input instanceof Map ?
 		map(input, mapper, options) :
