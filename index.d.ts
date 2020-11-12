@@ -31,7 +31,7 @@ import got = require('got');
 	};
 
 	const sites = {
-		ava: fetch('ava.li'),
+		ava: fetch('avajs.dev'),
 		todomvc: fetch('todomvc.com'),
 		github: fetch('github.com'),
 		foo: 'bar'
