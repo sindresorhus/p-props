@@ -53,7 +53,7 @@ declare function pProps<
 	map: InputType,
 	mapper?: undefined,
 	options?: pProps.Options
-): Promise<{[key in keyof InputType]: pProps.PromiseResult<InputType[key]>}>;							      
+): Promise<{[key in keyof InputType]: pProps.PromiseResult<InputType[key]>}>;
 declare function pProps<
 	KeyType,
 	ValueType,
