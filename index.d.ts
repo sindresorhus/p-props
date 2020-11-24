@@ -48,6 +48,13 @@ import got = require('got');
 ```
 */
 declare function pProps<
+	InputType extends {[key: string]: any}
+>(
+	map: InputType,
+	mapper?: undefined,
+	options?: pProps.Options
+): Promise<{[key in keyof InputType]: pProps.PromiseResult<InputType[key]>}>;							      
+declare function pProps<
 	KeyType,
 	ValueType,
 	MappedValueType = pProps.PromiseResult<ValueType>
