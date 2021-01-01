@@ -1,4 +1,4 @@
-# p-props [![Build Status](https://travis-ci.com/sindresorhus/p-props.svg?branch=master)](https://travis-ci.com/sindresorhus/p-props)
+# p-props
 
 > Like [`Promise.all()`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) but for `Map` and `Object`
 
