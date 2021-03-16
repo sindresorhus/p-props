@@ -31,7 +31,7 @@ const hashMap = {
 	foo: 'bar'
 };
 
-expectType<Promise<{ unicorn: 1, foo: 'bar' }>>(
+expectType<Promise<{unicorn: 1, foo: 'bar'}>>(
 	pProps(hashMap)
 );
 expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
