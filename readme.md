@@ -13,32 +13,30 @@ $ npm install p-props
 ## Usage
 
 ```js
-const pProps = require('p-props');
-const got = require('got');
+import pProps from 'p-props';
+import got from 'got';
 
-(async () => {
-	const fetch = async url => {
-		const {body} = await got(url);
-		return body;
-	};
+const fetch = async url => {
+	const {body} = await got(url);
+	return body;
+};
 
-	const sites = {
-		ava: fetch('https://avajs.dev'),
-		todomvc: fetch('https://todomvc.com'),
-		github: fetch('https://github.com'),
-		foo: 'bar'
-	};
+const sites = {
+	ava: fetch('https://avajs.dev'),
+	todomvc: fetch('https://todomvc.com'),
+	github: fetch('https://github.com'),
+	foo: 'bar'
+};
 
-	console.log(await pProps(sites));
-	/*
-	{
-		ava: '<!doctype …',
-		todomvc: '<!doctype …',
-		github: '<!doctype …',
-		foo: 'bar'
-	}
-	*/
-})();
+console.log(await pProps(sites));
+/*
+{
+	ava: '<!doctype …',
+	todomvc: '<!doctype …',
+	github: '<!doctype …',
+	foo: 'bar'
+}
+*/
 ```
 
 ## API

@@ -1,8 +1,8 @@
 import {expectType, expectAssignable} from 'tsd';
-import pProps = require('.');
+import pProps, {Options} from './index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const options: pProps.Options = {};
+const options: Options = {};
 
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
 expectType<Promise<{[key in 'foo']: boolean}>>(
@@ -63,10 +63,9 @@ const map = new Map<number, string | Promise<string>>([
 	[2, '2']
 ]);
 
-pProps(map).then(result => {
-	expectType<Map<number, string>>(result);
-	expectType<string | undefined>(result.get(1));
-});
+const result = await pProps(map);
+expectType<Map<number, string>>(result);
+expectType<string | undefined>(result.get(1));
 
 expectType<Promise<Map<number, string>>>(pProps(map));
 expectType<Promise<Map<number, number>>>(

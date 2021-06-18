@@ -1,6 +1,6 @@
 import test from 'ava';
 import delay from 'delay';
-import pProps from '.';
+import pProps from './index.js';
 
 test('main', async t => {
 	t.deepEqual(
@@ -36,7 +36,7 @@ test('rejects if any of the input promises reject', async t => {
 			foo: Promise.resolve(1),
 			bar: Promise.reject(new Error('bar'))
 		}),
-		'bar'
+		{message: 'bar'}
 	);
 });
 

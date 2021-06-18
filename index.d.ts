@@ -1,15 +1,11 @@
-import {Options as PMapOptions} from 'p-map';
+import {Options} from 'p-map';
 
-declare namespace pProps {
-	type Options = PMapOptions;
+export type PromiseResult<Value> = Value extends PromiseLike<infer Result> ? Result : Value;
 
-	type PromiseResult<Value> = Value extends PromiseLike<infer Result> ? Result : Value;
-
-	type Mapper<ValueType, KeyType, MappedValueType> = (
-		value: ValueType,
-		key: KeyType
-	) => MappedValueType | PromiseLike<MappedValueType>;
-}
+export type Mapper<ValueType, KeyType, MappedValueType> = (
+	value: ValueType,
+	key: KeyType
+) => MappedValueType | PromiseLike<MappedValueType>;
 
 /**
 Like [`Promise.all()`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) but for `Map` and `Object`.
@@ -21,50 +17,47 @@ Like [`Promise.all()`](https://developer.mozilla.org/en/docs/Web/JavaScript/Refe
 
 @example
 ```
-import pProps = require('p-props');
-import got = require('got');
+import pProps from 'p-props';
+import got from 'got';
 
-(async () => {
-	const fetch = async url => {
-		const {body} = await got(url);
-		return body;
-	};
+const fetch = async url => {
+	const {body} = await got(url);
+	return body;
+};
 
-	const sites = {
-		ava: fetch('https://avajs.dev'),
-		todomvc: fetch('https://todomvc.com'),
-		github: fetch('https://github.com'),
-		foo: 'bar'
-	};
+const sites = {
+	ava: fetch('https://avajs.dev'),
+	todomvc: fetch('https://todomvc.com'),
+	github: fetch('https://github.com'),
+	foo: 'bar'
+};
 
-	console.log(await pProps(sites));
-	// {
-	// 	ava: '<!doctype …',
-	// 	todomvc: '<!doctype …',
-	// 	github: '<!doctype …',
-	// 	foo: 'bar'
-	// }
-})();
+console.log(await pProps(sites));
+// {
+// 	ava: '<!doctype …',
+// 	todomvc: '<!doctype …',
+// 	github: '<!doctype …',
+// 	foo: 'bar'
+// }
 ```
 */
-declare function pProps<
+export default function pProps<
 	KeyType,
 	ValueType,
-	MappedValueType = pProps.PromiseResult<ValueType>
+	MappedValueType = PromiseResult<ValueType>
 >(
-	// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 	map: ReadonlyMap<KeyType, ValueType>,
-	mapper?: pProps.Mapper<pProps.PromiseResult<ValueType>, KeyType, MappedValueType>,
-	options?: pProps.Options
+	mapper?: Mapper<PromiseResult<ValueType>, KeyType, MappedValueType>,
+	options?: Options
 ): Promise<Map<KeyType, MappedValueType>>;
-declare function pProps<
-	InputType extends {[key: string]: any},
+export default function pProps<
+	InputType extends Record<string, any>,
 	ValueType extends InputType[keyof InputType],
-	MappedValueType = pProps.PromiseResult<ValueType>
+	MappedValueType = PromiseResult<ValueType>
 >(
 	map: InputType,
-	mapper?: pProps.Mapper<pProps.PromiseResult<ValueType>, keyof InputType, MappedValueType>,
-	options?: pProps.Options
+	mapper?: Mapper<PromiseResult<ValueType>, keyof InputType, MappedValueType>,
+	options?: Options
 ): Promise<{[key in keyof InputType]: MappedValueType}>;
 
-export = pProps;
+export {Options} from 'p-map';
