@@ -1,7 +1,7 @@
 'use strict';
 const pMap = require('p-map');
 
-const pProps = (input, mapper, options) => {
+const pProps = async (input, mapper, options) => {
 	const isMap = input instanceof Map;
 	const entries = isMap ? [...map.entries()] : Object.entries(map);
 	const awaitedEntries = entries.map(async ([key, value]) => [key, await value]);
