@@ -6,11 +6,11 @@ const pProps = (input, mapper, options) => {
 	const entries = isMap ? [...map.entries()] : Object.entries(map);
 	const awaitedEntries = entries.map(async ([key, value]) => [key, await value]);
 	if (!mapper && !options) {
-		return isMap ? new Map(awaitedEntries) : Object.fromEntries(awaitedEntries)
+		return isMap ? new Map(awaitedEntries) : Object.fromEntries(awaitedEntries);
 	}
 
 	const values = await pMap(awaitedEntries, ([key, value]) => mapper(value, key), options);
-	const mappedEntries = values.map((value, index) => [entries[index], value]);
+	const mappedEntries = awaitedEntries.map(([key], index) => [key, value[index]]);
 	return isMap ? new Map(mappedEntries) : Object.fromEntries(mappedEntries);
 };
 
