@@ -1,58 +1,75 @@
 import {expectType, expectAssignable} from 'tsd';
-import pProps, {Options} from './index.js';
+import pProps, {type Options} from './index.js';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const options: Options = {};
 
 expectType<Promise<{[key in 'foo']: string}>>(pProps({foo: 'bar'}));
 expectType<Promise<{[key in 'foo']: boolean}>>(
-	pProps({foo: 'bar'}, (value, key) => {
+	pProps({foo: 'bar'}, async (value, key) => {
 		expectType<string>(value);
 		expectType<'foo'>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
-	})
+	}),
 );
 expectType<Promise<{[key in 'foo']: boolean}>>(
 	pProps(
 		{foo: 'bar'},
-		(value, key) => {
+		async (value, key) => {
 			expectType<string>(value);
 			expectType<'foo'>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
 		{
-			concurrency: 1
-		}
-	)
+			concurrency: 1,
+		},
+	),
 );
 
 const hashMap = {
 	unicorn: Promise.resolve(1),
-	foo: 'bar'
+	foo: 'bar',
 };
 
-expectType<Promise<{[key in 'unicorn' | 'foo']: string | number}>>(
-	pProps(hashMap)
+// TODO: Should ideally be:
+// expectType<Promise<{unicorn: 1; foo: 'bar'}>>(
+expectType<Promise<{unicorn: number; foo: string}>>(
+	pProps(hashMap),
 );
+
+const hashMap2 = {
+	unicorn: Promise.resolve(1),
+	foo: 'bar',
+} as const;
+
+// TODO: Should ideally be:
+// expectType<Promise<{readonly unicorn: 1; readonly foo: 'bar'}>>(
+expectType<Promise<{readonly unicorn: number; readonly foo: 'bar'}>>(
+	pProps(hashMap2),
+);
+
+expectType<{bar: 'baz'; thud: 'qux'}>(
+	await pProps({bar: 'baz' as const, thud: 'qux' as const}),
+);
+
 expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
-	pProps(hashMap, (value, key) => {
+	pProps(hashMap, async (value, key) => {
 		expectType<string | number>(value);
 		expectAssignable<string>(key);
 		return Math.random() > 0.5 ? false : Promise.resolve(true);
-	})
+	}),
 );
 expectType<Promise<{[key in 'unicorn' | 'foo']: boolean}>>(
 	pProps(
 		hashMap,
-		(value, key) => {
+		async (value, key) => {
 			expectType<string | number>(value);
 			expectAssignable<string>(key);
 			return Math.random() > 0.5 ? false : Promise.resolve(true);
 		},
 		{
-			concurrency: 1
-		}
-	)
+			concurrency: 1,
+		},
+	),
 );
 
 const partialMap: {foo?: Promise<string>} = {};
@@ -60,7 +77,7 @@ expectType<Promise<{foo?: string}>>(pProps(partialMap));
 
 const map = new Map<number, string | Promise<string>>([
 	[1, Promise.resolve('1')],
-	[2, '2']
+	[2, '2'],
 ]);
 
 const result = await pProps(map);
@@ -69,22 +86,22 @@ expectType<string | undefined>(result.get(1));
 
 expectType<Promise<Map<number, string>>>(pProps(map));
 expectType<Promise<Map<number, number>>>(
-	pProps(map, (value, key) => {
+	pProps(map, async (value, key) => {
 		expectType<string>(value);
 		expectType<number>(key);
 		return Math.random() > 0.5 ? 1 : Promise.resolve(2);
-	})
+	}),
 );
 expectType<Promise<Map<number, number>>>(
 	pProps(
 		map,
-		(value, key) => {
+		async (value, key) => {
 			expectType<string>(value);
 			expectType<number>(key);
 			return Math.random() > 0.5 ? 1 : Promise.resolve(2);
 		},
 		{
-			concurrency: 1
-		}
-	)
+			concurrency: 1,
+		},
+	),
 );

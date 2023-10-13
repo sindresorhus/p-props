@@ -1,6 +1,4 @@
-import {Options} from 'p-map';
-
-export type PromiseResult<Value> = Value extends PromiseLike<infer Result> ? Result : Value;
+import {type Options} from 'p-map';
 
 export type Mapper<ValueType, KeyType, MappedValueType> = (
 	value: ValueType,
@@ -41,23 +39,30 @@ console.log(await pProps(sites));
 // }
 ```
 */
+export default function pProps< // This overload exists to get more accurate results when the mapper is not defined.
+	InputType extends Record<PropertyKey, unknown>,
+>(
+	map: InputType,
+	mapper?: undefined,
+	options?: Options
+): Promise<{[key in keyof InputType]: Awaited<InputType[key]>}>;
+export default function pProps<
+	InputType extends Record<string, unknown>,
+	ValueType extends InputType[keyof InputType],
+	MappedValueType = Awaited<ValueType>,
+>(
+	map: InputType,
+	mapper?: Mapper<Awaited<ValueType>, keyof InputType, MappedValueType>,
+	options?: Options
+): Promise<{[key in keyof InputType]: MappedValueType}>;
 export default function pProps<
 	KeyType,
 	ValueType,
-	MappedValueType = PromiseResult<ValueType>
+	MappedValueType = Awaited<ValueType>,
 >(
 	map: ReadonlyMap<KeyType, ValueType>,
-	mapper?: Mapper<PromiseResult<ValueType>, KeyType, MappedValueType>,
+	mapper?: Mapper<Awaited<ValueType>, KeyType, MappedValueType>,
 	options?: Options
 ): Promise<Map<KeyType, MappedValueType>>;
-export default function pProps<
-	InputType extends Record<string, any>,
-	ValueType extends InputType[keyof InputType],
-	MappedValueType = PromiseResult<ValueType>
->(
-	map: InputType,
-	mapper?: Mapper<PromiseResult<ValueType>, keyof InputType, MappedValueType>,
-	options?: Options
-): Promise<{[key in keyof InputType]: MappedValueType}>;
 
 export {Options} from 'p-map';

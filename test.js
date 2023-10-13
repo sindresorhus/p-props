@@ -7,13 +7,13 @@ test('main', async t => {
 		await pProps({
 			foo: delay(100).then(() => 1),
 			bar: Promise.resolve(2),
-			faz: 3
+			faz: 3,
 		}),
 		{
 			foo: 1,
 			bar: 2,
-			faz: 3
-		}
+			faz: 3,
+		},
 	);
 });
 
@@ -21,12 +21,12 @@ test('`Map` input', async t => {
 	t.deepEqual(
 		await pProps(new Map([
 			['foo', Promise.resolve(1)],
-			['bar', 2]
+			['bar', 2],
 		])),
 		new Map([
 			['foo', 1],
-			['bar', 2]
-		])
+			['bar', 2],
+		]),
 	);
 });
 
@@ -34,9 +34,9 @@ test('rejects if any of the input promises reject', async t => {
 	await t.throwsAsync(
 		pProps({
 			foo: Promise.resolve(1),
-			bar: Promise.reject(new Error('bar'))
+			bar: Promise.reject(new Error('bar')),
 		}),
-		{message: 'bar'}
+		{message: 'bar'},
 	);
 });
 
@@ -51,7 +51,7 @@ test('with mapper', async t => {
 	t.deepEqual(
 		await pProps({
 			foo: 1,
-			baz: Promise.resolve(2)
+			baz: Promise.resolve(2),
 		}, async (value, key) => {
 			if (key === 'foo') {
 				t.is(value, 1);
@@ -65,8 +65,8 @@ test('with mapper', async t => {
 		}),
 		{
 			foo: 'foo1',
-			baz: 'baz2'
-		}
+			baz: 'baz2',
+		},
 	);
 });
 
@@ -76,7 +76,7 @@ test('`Map` input with mapper', async t => {
 	t.deepEqual(
 		await pProps(new Map([
 			['foo', 1],
-			['bar', Promise.resolve(2)]
+			['bar', Promise.resolve(2)],
 		]), async (value, key) => {
 			if (key === 'foo') {
 				t.is(value, 1);
@@ -90,7 +90,7 @@ test('`Map` input with mapper', async t => {
 		}),
 		new Map([
 			['foo', 'foo1'],
-			['bar', 'bar2']
-		])
+			['bar', 'bar2'],
+		]),
 	);
 });
