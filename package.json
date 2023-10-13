@@ -1,6 +1,6 @@
 {
 	"name": "p-props",
-	"version": "5.0.0",
+	"version": "6.0.0",
 	"description": "Like `Promise.all()` but for `Map` and `Object`",
 	"license": "MIT",
 	"repository": "sindresorhus/p-props",
