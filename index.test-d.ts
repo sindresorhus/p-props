@@ -1,5 +1,5 @@
 import {expectType, expectAssignable} from 'tsd';
-import pProps, {type Options} from './index.js';
+import pProps, {pPropsAllSettled, type Options} from './index.js';
 
 const options: Options = {};
 
@@ -104,4 +104,45 @@ expectType<Promise<Map<number, number>>>(
 			concurrency: 1,
 		},
 	),
+);
+
+// PPropsAllSettled tests
+expectType<Promise<{[key in 'foo']: PromiseSettledResult<string>}>>(pPropsAllSettled({foo: 'bar'}));
+expectType<Promise<{[key in 'foo']: PromiseSettledResult<boolean>}>>(
+	pPropsAllSettled({foo: 'bar'}, async (value, key) => {
+		expectType<string>(value);
+		expectType<'foo'>(key);
+		return Math.random() > 0.5 ? false : Promise.resolve(true);
+	}),
+);
+
+const settledHashMap = {
+	unicorn: Promise.resolve(1),
+	foo: 'bar',
+};
+
+expectType<Promise<{unicorn: PromiseSettledResult<number>; foo: PromiseSettledResult<string>}>>(
+	pPropsAllSettled(settledHashMap),
+);
+
+expectType<Promise<{[key in 'unicorn' | 'foo']: PromiseSettledResult<boolean>}>>(
+	pPropsAllSettled(settledHashMap, async (value, key) => {
+		expectType<string | number>(value);
+		expectAssignable<string>(key);
+		return Math.random() > 0.5 ? false : Promise.resolve(true);
+	}),
+);
+
+const settledMap = new Map<number, string | Promise<string>>([
+	[1, Promise.resolve('1')],
+	[2, '2'],
+]);
+
+expectType<Promise<Map<number, PromiseSettledResult<string>>>>(pPropsAllSettled(settledMap));
+expectType<Promise<Map<number, PromiseSettledResult<number>>>>(
+	pPropsAllSettled(settledMap, async (value, key) => {
+		expectType<string>(value);
+		expectType<number>(key);
+		return Math.random() > 0.5 ? 1 : Promise.resolve(2);
+	}),
 );
