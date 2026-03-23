@@ -43,7 +43,7 @@ console.log(await pProps(sites));
 
 ### pProps(input, mapper?, options?)
 
-Returns a `Promise` that is fulfilled when all promises in `input` and ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `input`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
+Returns a `Promise` that is fulfilled when all promises in `input` and the ones returned from `mapper` are fulfilled, or rejects if any of the promises reject. The fulfilled value is the same as `input`, but with a fulfilled version of each entry value, or the fulfilled value returned from `mapper`, if defined.
 
 #### input
 
@@ -94,7 +94,7 @@ console.log(await pPropsAllSettled(sites));
 */
 ```
 
-Returns a `Promise` that is fulfilled when all promises in `input` and ones returned from `mapper` are settled. The fulfilled value is the same as `input`, but with a settled version of each entry value, or the settled value returned from `mapper`, if defined.
+Returns a `Promise` that is fulfilled when all promises in `input` and the ones returned from `mapper` are settled. The fulfilled value is the same as `input`, but with a settled version of each entry value, or the settled value returned from `mapper`, if defined.
 
 #### input
 
